@@ -5,3 +5,5 @@ coverage/            # Exclude test coverage reports
 tsconfig.json        # Exclude TypeScript config files
 jest.config.js       # Exclude Jest config files
 package-lock.json    # Exclude lock files
+dist/tests/
+.npmrc
