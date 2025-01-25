@@ -1,0 +1,7 @@
+tests/               # Exclude test files
+coverage/            # Exclude test coverage reports
+.gitignore           # Exclude the .gitignore file
+.github/             # Exclude GitHub workflows and configs
+tsconfig.json        # Exclude TypeScript config files
+jest.config.js       # Exclude Jest config files
+package-lock.json    # Exclude lock files
