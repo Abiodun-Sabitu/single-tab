@@ -7,6 +7,7 @@ const config = {
   collectCoverage: true, // Generate test coverage reports
   coverageDirectory: "coverage", // Directory for coverage reports
   coverageReporters: ["text", "lcov"], // Text output and lcov for IDEs
+  setupFilesAfterEnv: ["<rootDir>/tests/jest.setup.ts"], // Path to Jest setup file
 };
 
 module.exports = config;
