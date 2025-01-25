@@ -7,8 +7,11 @@
 ## Features
 
 - Detect duplicate tabs in React applications.
+- Prevent dismissing duplicate warnings (non-closable by default).
 - Show customizable warnings when duplicate tabs are detected.
+- Highly customizable and adaptable to any UI framework or design system.
 - Lightweight and easy to integrate.
+- Supports React frameworks, including Next.js, with SSR considerations.
 
 ---
 
@@ -27,30 +30,48 @@ npm install single-tab
 Here's a quick example to get started with **SingleTab** in your React application:
 
 ```tsx
-import { useSingleTab, SingleTabModal } from "single-tab";
+"use client"; // Required for SSR-supported frameworks like Next.js
 
-const App = () => {
-  const { isDuplicate, showWarning, dismissWarning, message } =
-    useSingleTab("my-app");
+import { useSingleTab, SingleTabModal } from "single-tab";
+import { Outlet } from "react-router-dom";
+
+// Example 1: Within Nested Routes
+export const usageWithinNestedRoutes = () => {
+  const { isDuplicate, showWarning, message } = useSingleTab("my-app");
+
+  return (
+    <div>
+      {isDuplicate && (
+        <SingleTabModal isOpen={showWarning} content={<p>{message}</p>} />
+      )}
+      <Outlet />
+    </div>
+  );
+};
+```
+
+```tsx
+"use client"; // Required for SSR-supported frameworks like Next.js
+
+import { useSingleTab, SingleTabModal } from "single-tab";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+// Example 2: Globally Across the Application
+export const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
+  const { isDuplicate, showWarning, message } = useSingleTab("my-app");
 
   return (
     <>
-      {showWarning && (
-        <SingleTabModal
-          isOpen={showWarning}
-          content={message}
-          onClose={dismissWarning}
-        />
+      {isDuplicate && (
+        <SingleTabModal isOpen={showWarning} content={<p>{message}</p>} />
       )}
-      <div>
-        <h1>Welcome to My App</h1>
-        <p>Enjoy using the app with duplicate tab detection enabled!</p>
-      </div>
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
     </>
   );
 };
-
-export default App;
 ```
 
 ---
@@ -66,21 +87,84 @@ This is the core hook used to detect and handle duplicate tabs.
   - `appId: string`: A unique identifier for your app to avoid conflicts when using shared domains.
 
 - **Returns**:
+
   - **`isDuplicate: boolean`**: Indicates whether the current tab is a duplicate.
   - **`showWarning: boolean`**: Controls the visibility of the warning modal.
-  - **`dismissWarning: () => void`**: Function to manually dismiss the modal.
   - **`message: string`**: Default warning message (can be overridden).
+
+**Note**: For Next.js or other SSR environments, ensure the component using `useSingleTab` is client-side rendered. Add `"use client"` at the top of your file.
 
 ---
 
 ### `<SingleTabModal />`
 
-The default modal component for displaying duplicate tab warnings.
+The default modal component for displaying duplicate tab warnings. It is designed to be non-closable by default.
 
 - **Props**:
   - **`isOpen: boolean`**: Determines whether the modal is visible.
   - **`content: React.ReactNode`**: Customizable content to display in the modal.
-  - **`onClose?: () => void`**: Optional callback function to close the modal.
+  - **`style?: React.CSSProperties`** (optional): Custom styles for the outer modal container.
+
+**Note**: The modal is optional, and you can use your own UI component or framework for showing warnings.
+
+---
+
+## SSR and Next.js Considerations
+
+When using **SingleTab** in frameworks like Next.js:
+
+1. **Add \*\***`"use client"`\*\*: Ensure components using `useSingleTab` are client-side rendered by including `"use client"` at the top of the file.
+
+2. **Console Warning**: If the library is used in an SSR context, a warning will appear:
+
+   ```
+   [SingleTab] This library is designed for browser environments only.
+   ```
+
+   This is expected behavior to ensure SSR does not interfere with the hook's functionality.
+
+---
+
+## Testing
+
+All components and hooks are fully tested. Use the following command to run the test suite:
+
+```bash
+npm test
+```
+
+The tests cover:
+
+- Duplicate tab detection using `BroadcastChannel` and `sessionStorage`.
+- Custom modal behavior and rendering.
+- Handling edge cases for duplicate tab warnings.
+
+---
+
+## Extensibility
+
+- **Custom Modals**: You can replace `SingleTabModal` with your own modal implementation or UI framework (e.g., Material-UI, Ant Design).
+- **Custom Behavior**: Leverage the `useSingleTab` hook to create fully customized duplicate tab handling logic for your app.
+
+```tsx
+"use client"; // Required for SSR-supported frameworks like Next.js
+
+import { useSingleTab } from "single-tab";
+
+export const usageWithoutSingleTabModal = () => {
+  const { isDuplicate, showWarning, message } = useSingleTab("my-app");
+
+  return (
+    <div>
+      {isDuplicate && showWarning && (
+        // Replace with a custom UI modal of your choice
+        <CustomModalComponent content={message} />
+      )}
+      <h1>Welcome to My Custom App</h1>
+    </div>
+  );
+};
+```
 
 ---
 
