@@ -26,6 +26,9 @@
     "url": "https://github.com/Abiodun-Sabitu/single-tab.git"
   },
   "homepage": "https://github.com/Abiodun-Sabitu/single-tab",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
