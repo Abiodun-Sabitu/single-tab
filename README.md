@@ -127,11 +127,7 @@ When using **SingleTab** in frameworks like Next.js:
 
 ## Testing
 
-All components and hooks are fully tested. Use the following command to run the test suite:
-
-```bash
-npm test
-```
+Fully Tested: SingleTab is tested with Jest and React Testing Library to ensure reliability in all scenarios.
 
 The tests cover:
 
