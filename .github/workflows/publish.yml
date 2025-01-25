@@ -3,13 +3,11 @@ name: Publish to NPM
 on:
   push:
     branches:
-      - master # Deploy only from master branch
-    tags:
-      - "v*" # Optional: Deploy on version tags like v1.0.0
+      - master
 
 jobs:
   publish:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -18,8 +16,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
-          cache: "npm"
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
         run: npm install
@@ -31,6 +29,6 @@ jobs:
         run: npm run build
 
       - name: Publish to NPM
-        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
