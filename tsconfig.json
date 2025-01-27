@@ -9,9 +9,9 @@
     "jsx": "react",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "lib": ["dom", "esnext"],
-    "types": ["jest", "@testing-library/react", "@testing-library/jest-dom"]
+    "lib": ["dom", "esnext"]
+    // "types": ["jest", "@testing-library/react", "@testing-library/jest-dom"]
   },
-  "include": ["src/**/*", "tests/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "tests", "dist"]
 }

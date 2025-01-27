@@ -1,9 +1,18 @@
-tests/               # Exclude test files
-coverage/            # Exclude test coverage reports
-.gitignore           # Exclude the .gitignore file
-.github/             # Exclude GitHub workflows and configs
-tsconfig.json        # Exclude TypeScript config files
-jest.config.js       # Exclude Jest config files
-package-lock.json    # Exclude lock files
+# Exclude test-related files and coverage reports
+tests/
+coverage/
+
+# Exclude configuration files
+.gitignore
+.github/
+tsconfig.json
+jest.config.js
+
+# Exclude lock files
+package-lock.json
+
+# Ensure dist doesn't contain unnecessary test files
 dist/tests/
+
+# Exclude NPM-specific configurations
 .npmrc
